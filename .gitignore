@@ -63,5 +63,8 @@ buck-out/
 /ios/Pods/
 /vendor/bundle/
 
-.env
+# custom
 pushnotification-config.json
+google-services.json
+GoogleService-Info.plist
+.env

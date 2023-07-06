@@ -11,28 +11,40 @@ const port = 3000;
 app.get("/", (req, res) => {
   res.send("Hello Server!");
 });
-app.get("/test", (req, res) => {
+app.get("/test", async (req, res) => {
   const message = {
     notification: {
       title: "Test notifcation title",
       body: "Test notifcation body",
     },
   };
+
   const options = {
+    contentAvailable: true,
     priority: "high",
     timeToLive: 60 * 60 * 24,
   };
 
-  admin
+  await admin
     .messaging()
-    .sendToDevice(process.env.ANDROID_DEVICE_TOKEN, message, options)
+    .sendToDevice(process.env.IOS_DEVICE_TOKEN, message, options)
     .then((response) => {
       console.log("Notification sent successfully", response.results);
-      res.status(200).send("Notification sent successfully");
+      res
+        .status(200)
+        .send(
+          `Notification sent successfully \n ${JSON.stringify(
+            response.results[0]
+          )}`
+        );
     })
     .catch((error) => {
       console.log("catch - ", error);
-      res.end();
+      res
+        .status(400)
+        .send(
+          `Notification sent failed \n ${JSON.stringify(error.results[0])}`
+        );
     });
 });
 app.listen(port, () => {

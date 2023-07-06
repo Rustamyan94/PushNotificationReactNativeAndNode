@@ -1,5 +1,6 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+$RNFirebaseAsStaticFramework = true
 
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
@@ -9,6 +10,12 @@ target 'PushNotification' do
 
   # Flags change depending on the env values.
   flags = get_default_flags()
+
+
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+
 
   use_react_native!(
     :path => config[:reactNativePath],
